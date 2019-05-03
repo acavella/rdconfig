@@ -1,0 +1,2 @@
+ssid1 guipass1 pskpass1
+ssid2 guipass2 pskpass2
