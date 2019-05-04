@@ -1,3 +1,14 @@
+<#
+    .SYNOPSIS
+        Writes customized output to a host.
+    .DESCRIPTION
+        The Write-Host cmdlet customizes output. You can specify the color of text by using
+        the ForegroundColor parameter, and you can specify the background color by using the
+        BackgroundColor parameter. The Separator parameter lets you specify a string to use to
+        separate displayed objects. The particular result depends on the program that is
+        hosting Windows PowerShell.
+#>
+
 param (
     [string] $p1
 )
@@ -9,25 +20,11 @@ param (
 [string] $fileDTG = $(get-date -f yyyy-MM-dd)
 [string] $sourceFile = $p1
 
-# Script functions
-function encode {
-    $script:textout = [System.Web.HttpUtility]::UrlEncode($textin)
-}
-
-function testoutput {
-    Write-Output $scriptPath
-    Write-Output $__rootDir
-    Write-Output $__confDir
-    Write-Output $__outDir
-    Write-Output $fileDTG
-    Write-Output $p1
-}
-
-# Script Logic
+# Update 
 foreach($line in Get-Content $sourceFile) {
     Write-Host $line
     $ssid,$devpin,$guipass,$pskpass = $line.split(' ')
-    Copy-Item "$__confDir\default.conf" -Destination "$__outDir\$ssid.conf"
+    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\$ssid.conf"
     Write-Host $ssid
     Write-Host $devpin
     $devpinENC = [System.Web.HttpUtility]::UrlEncode($devpin)
@@ -43,7 +40,5 @@ foreach($line in Get-Content $sourceFile) {
 exit 0
 
 
-$textin = Read-Host "Web Password"
-encode
-$key = "replParm1="+$textout
+$key = "replParm1=${variable}"
 ((Get-Content -path $args -Raw) -replace 'replParm1=true',$key) | Set-Content -Path $args
