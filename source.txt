@@ -1,2 +1,3 @@
+deviceSSID devicePIN wwwPassword wifiPassword
 ssid1 pin1234 guipass1 pskpass1
 ssid2 pin5678 guipass2 pskpass2

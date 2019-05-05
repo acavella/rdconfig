@@ -18,9 +18,21 @@ param (
 [string] $__outDir = $__rootDir +"\output"
 [string] $fileDTG = $(get-date -f yyyy-MM-dd)
 [string] $sourceFile = $p1
+$TempFile = New-TemporaryFile
+
+# Read headers from source file
+$header = Get-Content $sourceFile -First 1
+Write-Host $header
+[array] $headerA = $header.split(' ')
+$count = $headerA.count
+Write-Host $count
+
+# Create temporary source file
+Get-Content $sourceFile | Select-Object -Skip 1 | Set-Content "$TempFile"
+Write-Host "$TempFile"
 
 # Update 
-foreach($line in Get-Content $sourceFile) {
+foreach($line in Get-Content $TempFile) {
     Write-Host $line
     $ssid,$devpin,$guipass,$pskpass = $line.split(' ')
     Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\$ssid.conf"
@@ -35,6 +47,9 @@ foreach($line in Get-Content $sourceFile) {
     $pskpassENC = [System.Web.HttpUtility]::UrlEncode($pskpass)
     Write-Host $pskpassENC
 }
+
+# Clean up temporary files
+Remove-Item -Path $TempFile -Force
 
 exit 0
 
