@@ -1,12 +1,11 @@
 <#
     .SYNOPSIS
-        Writes customized output to a host.
+        Writes customized variables to Netgear RD config.
     .DESCRIPTION
-        The Write-Host cmdlet customizes output. You can specify the color of text by using
-        the ForegroundColor parameter, and you can specify the background color by using the
-        BackgroundColor parameter. The Separator parameter lets you specify a string to use to
-        separate displayed objects. The particular result depends on the program that is
-        hosting Windows PowerShell.
+        rdConfig automates the process of configuring Netgear Retransmission Devices. Custom 
+        variables are input via a space delimited file, each new line represents a new device. 
+        Custom configuration files are output as <ssid>.conf and can be automatically loaded 
+        on the RD via CURL POST.
 #>
 
 param (
