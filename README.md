@@ -57,11 +57,11 @@ If you discover a security vulnerability within rdconfig, please send an e-mail 
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.  See CONTRIBUTING.md for more information.
+Contributions are what make the open source community such an amazing place. See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## License
 
-Distributed under the GNU General Public License v3.0. See LICENSE for more information.
+Distributed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for more information.
 
 ## Contact
 
