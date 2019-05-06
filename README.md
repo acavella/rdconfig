@@ -40,11 +40,12 @@ Installation instructions here.
 ## Usage
 
 1. Copy fully configured sample configuration to `\conf\default.conf`
-2. Edit `.\source.txt`
- * The first line of file are the names of variables to be edited, values delimited by spaces.
- * Each subsequent line will be used as the variable values.
- Example source.txt
+2. Edit `.source.txt`
+   * The first line of file are the names of variables to be edited, values delimited by spaces.
+   * Each subsequent line will be used as the variable values.
  ```
+.source.txt
+
 deviceSSID devicePIN wwwPassword pskPassword
 device101 12345 Password1 Password1234
 device102 67890 Password2 Password5678
