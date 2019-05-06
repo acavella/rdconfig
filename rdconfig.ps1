@@ -34,8 +34,9 @@ Write-Host "$TempFile"
 # Update 
 foreach($line in Get-Content $TempFile) {
     Write-Host $line
-    $ssid,$devpin,$guipass,$pskpass = $line.split(' ')
-    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\$ssid.conf"
+    [array] $customA = $line.split(' ')
+    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\${customA[0]}.conf"
+    
     Write-Host $ssid
     Write-Host $devpin
     $devpinENC = [System.Web.HttpUtility]::UrlEncode($devpin)
