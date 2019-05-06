@@ -9,16 +9,23 @@
 #>
 
 param (
-    [string] $p1
+    [switch]$version = $false,
+    [string]$p1
 )
 
-[string] $scriptPath = $MyInvocation.MyCommand.Path
-[string] $__rootDir = Split-Path $scriptPath
-[string] $__confDir = $__rootDir +"\conf"
-[string] $__outDir = $__rootDir +"\output"
-[string] $fileDTG = $(get-date -f yyyy-MM-dd)
-[string] $sourceFile = $p1
+[string]$scriptPath = $MyInvocation.MyCommand.Path
+[string]$__rootDir = Split-Path $scriptPath
+[string]$__confDir = $__rootDir +"\conf"
+[string]$__outDir = $__rootDir +"\output"
+[string]$sourceFile = $p1
+[string]$scriptVer = Get-Content ${__rootDir}\VERSION
 $TempFile = New-TemporaryFile
+
+# Script basic functions
+if ($version) {
+    Write-Host "rdConfig/v${scriptVer}"
+    exit 0
+}
 
 # Read headers from source file
 $header = Get-Content $sourceFile -First 1
@@ -34,7 +41,7 @@ Write-Host "$TempFile"
 # Update 
 foreach($line in Get-Content $TempFile) {
     Write-Host $line
-    [array] $customA = $line.split(' ')
+    [array]$customA = $line.split(' ')
     Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\${customA[0]}.conf"
     
     Write-Host $ssid
