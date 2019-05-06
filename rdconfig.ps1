@@ -19,7 +19,7 @@ param (
 [string]$__outDir = $__rootDir +"\output"
 [string]$sourceFile = $p1
 [string]$scriptVer = Get-Content ${__rootDir}\VERSION
-$TempFile = New-TemporaryFile
+$tempFile = New-TemporaryFile
 
 # Script basic functions
 if ($version) {
@@ -29,31 +29,23 @@ if ($version) {
 
 # Read headers from source file
 $header = Get-Content $sourceFile -First 1
-Write-Host $header
-[array] $headerA = $header.split(' ')
+[array]$headerA = $header.split(' ')
 $count = $headerA.count
 Write-Host $count
 
 # Create temporary source file
-Get-Content $sourceFile | Select-Object -Skip 1 | Set-Content "$TempFile"
-Write-Host "$TempFile"
+Get-Content $sourceFile | Select-Object -Skip 1 | Set-Content "$tempFile"
+Write-Host "$tempFile"
 
 # Update 
-foreach($line in Get-Content $TempFile) {
-    Write-Host $line
-    [array]$customA = $line.split(' ')
-    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\${customA[0]}.conf"
-    
-    Write-Host $ssid
-    Write-Host $devpin
-    $devpinENC = [System.Web.HttpUtility]::UrlEncode($devpin)
-    Write-Host $devpinENC
-    Write-Host $guipass
-    $guipassENC = [System.Web.HttpUtility]::UrlEncode($guipass)
-    Write-Host $guipassENC
-    Write-Host $pskpass
-    $pskpassENC = [System.Web.HttpUtility]::UrlEncode($pskpass)
-    Write-Host $pskpassENC
+foreach($line in Get-Content $tempFile) {
+    [array]$flag = $line.split(' ')
+    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\${flag[0]}.conf"
+
+    for ($i=1;$i -lt $count; $i++) {
+        ((Get-Content ${__outDir}\${flag[0]}.conf) -replace '^$headerA[$i].$','$headerA[$i]=$flag[$i]') | Set-Content ${__outDir}\${flag[0]}.conf
+    }
+   
 }
 
 # Clean up temporary files
@@ -64,3 +56,14 @@ exit 0
 
 $key = "replParm1=${variable}"
 ((Get-Content -path $args -Raw) -replace 'replParm1=true',$key) | Set-Content -Path $args
+
+Write-Host $ssid
+Write-Host $devpin
+$devpinENC = [System.Web.HttpUtility]::UrlEncode($devpin)
+Write-Host $devpinENC
+Write-Host $guipass
+$guipassENC = [System.Web.HttpUtility]::UrlEncode($guipass)
+Write-Host $guipassENC
+Write-Host $pskpass
+$pskpassENC = [System.Web.HttpUtility]::UrlEncode($pskpass)
+Write-Host $pskpassENC
