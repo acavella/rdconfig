@@ -37,6 +37,17 @@ Automates the customization and configuration of Netgear retransmission devices.
 
 Installation instructions here.
 
+## Usage
+
+1. Copy fully configured sample configuration to `/conf/default.conf`
+2. Edit `/conf/default.conf`
+```
+sampleVariable1=default
+sampleVariable2=CUSTOM
+sampleVariable3=default
+```
+3. 
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within rdconfig, please send an e-mail to [cavella_tony@bah.com](mailto:cavella_tony@bah.com?rdConfig%20Security%20Vulnerability). Security vulnerabilities are taken very seriously and will be addressed with the utmost priority.
