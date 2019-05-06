@@ -43,11 +43,11 @@ Installation instructions here.
 2. Edit `.\source.txt`
    * The first line of file are the names of variables to be edited, values delimited by spaces.
    * Each subsequent line will be used as the variable values.
-   ```
-   deviceSSID devicePIN wwwPassword pskPassword
-   device101 12345 Password1 Password1234
-   device102 67890 Password2 Password5678
-   ```
+     ```
+     deviceSSID devicePIN wwwPassword pskPassword
+     device101 12345 Password1 Password1234
+     device102 67890 Password2 Password5678
+     ```
 3. Run the script via PowerShell `.\rdconfig.ps1 .source.txt`
 4. Edited configurations will be placed in the output directory, `\output\<devicessid>.conf`
 
