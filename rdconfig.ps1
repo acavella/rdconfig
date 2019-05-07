@@ -40,17 +40,17 @@ Write-Host "$tempFile"
 # Update 
 foreach($line in Get-Content $tempFile) {
     [array]$flag = $line.split(' ')
-    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\${flag[0]}.conf"
+    Write-Host $flag[0]
+    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\$($flag[0]).conf"
 
-    for ($i=1;$i -lt $count; $i++) {
-        ((Get-Content ${__outDir}\${flag[0]}.conf) -replace '^$headerA[$i].$','$headerA[$i]=$flag[$i]') | Set-Content ${__outDir}\${flag[0]}.conf
-    }
+    #for ($i=1;$i -lt $count; $i++) {
+    #    ((Get-Content ${__outDir}\${flag[0]}.conf) -replace '^$headerA[$i].$','$headerA[$i]=$flag[$i]') | Set-Content ${__outDir}\${flag[0]}.conf
+    #}
    
 }
 
 # Clean up temporary files
-Remove-Item -Path $TempFile -Force
-
+#Remove-Item -Path $TempFile -Force
 exit 0
 
 
