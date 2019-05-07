@@ -23,7 +23,7 @@ $tempFile = New-TemporaryFile
 
 # Script basic functions
 if ($version) {
-    Write-Host "rdConfig/v${scriptVer}"
+    Write-Host "rdConfig/${scriptVer}"
     exit 0
 }
 
