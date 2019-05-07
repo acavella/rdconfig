@@ -37,7 +37,7 @@ Write-Host $count
 Get-Content $sourceFile | Select-Object -Skip 1 | Set-Content "$tempFile"
 Write-Host "$tempFile"
 
-# Update 
+# Read variables out of temporary file and assign to array
 foreach($line in Get-Content $tempFile) {
     [array]$flag = $line.split(' ')
     Write-Host $flag[0]
