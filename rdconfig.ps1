@@ -40,30 +40,18 @@ Write-Host "$tempFile"
 # Read variables out of temporary file and assign to array
 foreach($line in Get-Content $tempFile) {
     [array]$flag = $line.split(' ')
-    Write-Host $flag[0]
-    Copy-Item "${__confDir}\default.conf" -Destination "${__outDir}\$($flag[0]).conf"
-
-    #for ($i=1;$i -lt $count; $i++) {
-    #    ((Get-Content ${__outDir}\${flag[0]}.conf) -replace '^$headerA[$i].$','$headerA[$i]=$flag[$i]') | Set-Content ${__outDir}\${flag[0]}.conf
-    #}
-   
+    $confFile = "${__outDir}\$($flag[0]).conf"
+    Write-Host $confFile
+    Copy-Item "${__confDir}\default.conf" -Destination $confFile
+    $i = 0
+    while ($i -lt $count) {
+        $replace = "^$($headerA[$i]).*"
+        $replacement = "$($headerA[$i])=$($flag[$i])"
+        ((Get-Content $confFile) -replace "$replace","$replacement") | Set-Content $confFile
+        $i++
+    }   
 }
 
 # Clean up temporary files
-#Remove-Item -Path $TempFile -Force
+Remove-Item -Path $TempFile -Force
 exit 0
-
-
-$key = "replParm1=${variable}"
-((Get-Content -path $args -Raw) -replace 'replParm1=true',$key) | Set-Content -Path $args
-
-Write-Host $ssid
-Write-Host $devpin
-$devpinENC = [System.Web.HttpUtility]::UrlEncode($devpin)
-Write-Host $devpinENC
-Write-Host $guipass
-$guipassENC = [System.Web.HttpUtility]::UrlEncode($guipass)
-Write-Host $guipassENC
-Write-Host $pskpass
-$pskpassENC = [System.Web.HttpUtility]::UrlEncode($pskpass)
-Write-Host $pskpassENC
