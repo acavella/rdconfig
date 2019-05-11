@@ -26,23 +26,19 @@ param (
 [string]$scriptVer = Get-Content ${__rootDir}\VERSION
 $tempFile = New-TemporaryFile
 
-# Script basic functions
 if ($version) {
     Write-Host "rdConfig/${scriptVer}"
     exit 0
 }
 
-# Read headers from source file
 $header = Get-Content $sourceFile -First 1
 [array]$headerA = $header.split(' ')
 $count = $headerA.count
 Write-Host $count
 
-# Create temporary source file
 Get-Content $sourceFile | Select-Object -Skip 1 | Set-Content "$tempFile"
 Write-Host "$tempFile"
 
-# Read variables out of temporary file and assign to array
 foreach($line in Get-Content $tempFile) {
     [array]$flag = $line.split(' ')
     $confFile = "${__outDir}\$($flag[0]).conf"
@@ -57,6 +53,5 @@ foreach($line in Get-Content $tempFile) {
     }   
 }
 
-# Clean up temporary files
 Remove-Item -Path $TempFile -Force
 exit 0
