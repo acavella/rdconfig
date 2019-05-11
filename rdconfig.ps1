@@ -9,15 +9,20 @@
 #>
 
 param (
-    [switch]$version = $false,
-    [string]$p1
+    [Parameter(Position=0)]
+    [Alias("Ver")]
+    [switch]$Version = $false,
+
+    [Parameter(Position=0)] # Positional parameter
+    [Alias("FilePath")]
+    [string[]]$Path
 )
 
 [string]$scriptPath = $MyInvocation.MyCommand.Path
 [string]$__rootDir = Split-Path $scriptPath
 [string]$__confDir = $__rootDir +"\conf"
 [string]$__outDir = $__rootDir +"\output"
-[string]$sourceFile = $p1
+[string]$sourceFile = $Path
 [string]$scriptVer = Get-Content ${__rootDir}\VERSION
 $tempFile = New-TemporaryFile
 
