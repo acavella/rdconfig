@@ -13,7 +13,7 @@ param (
     [Alias("Ver")]
     [switch]$Version = $false,
 
-    [Parameter(Position=0)] # Positional parameter
+    [Parameter(Position=0)]
     [Alias("FilePath")]
     [string[]]$Path
 )
