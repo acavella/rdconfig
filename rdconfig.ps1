@@ -36,24 +36,22 @@ if ($Version) {
     exit 0
 }
 
-$header = Get-Content $SourceFile -First 1
+$header = Get-Content -Path $SourceFile -First 1
 [array]$headerA = $header.split(' ')
 $count = $headerA.count
-Write-Host $count
 
-Get-Content $SourceFile | Select-Object -Skip 1 | Set-Content "$TempFile"
-Write-Host "$TempFile"
+Get-Content -Path $SourceFile | Select-Object -Skip 1 | Set-Content -Path "$TempFile"
 
-foreach($line in Get-Content $TempFile) {
+foreach($line in Get-Content -Path $TempFile) {
     [array]$Value = $line.split(' ')
     $ConfigFile = "${OutputDir}\$($Value[0]).conf"
     Write-Host $ConfigFile
-    Copy-Item "${ConfigDir}\default.conf" -Destination $confFile
+    Copy-Item -Path "${ConfigDir}\default.conf" -Destination $confFile
     $i = 0
     while ($i -lt $count) {
         $replace = "^$($headerA[$i]).*"
         $replacement = "$($headerA[$i])=$($Value[$i])"
-        ((Get-Content $ConfigFile) -replace "$replace","$replacement") | Set-Content $ConfigFile
+        ((Get-Content -Path $ConfigFile) -replace "$replace","$replacement") | Set-Content -Path $ConfigFile
         $i++
     }   
 }
