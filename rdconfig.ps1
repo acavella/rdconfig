@@ -27,36 +27,33 @@ param (
 [string]$ConfigDir = "${ScriptDir}\conf"
 [string]$OutputDir = "${ScriptDir}\output"
 [string]$ScriptVersion = Get-Content ${ScriptDir}\VERSION
-[string]$sourceFile = $Path
-[string]$tempFile = New-TemporaryFile
+[string]$SourceFile = $Path
+[string]$TempFile = New-TemporaryFile
 
-Write-Host $scriptPath
 
-exit 0
-
-if ($version) {
+if ($Version) {
     Write-Host "rdConfig/${ScriptVersion}"
     exit 0
 }
 
-$header = Get-Content $sourceFile -First 1
+$header = Get-Content $SourceFile -First 1
 [array]$headerA = $header.split(' ')
 $count = $headerA.count
 Write-Host $count
 
-Get-Content $sourceFile | Select-Object -Skip 1 | Set-Content "$tempFile"
-Write-Host "$tempFile"
+Get-Content $SourceFile | Select-Object -Skip 1 | Set-Content "$TempFile"
+Write-Host "$TempFile"
 
-foreach($line in Get-Content $tempFile) {
-    [array]$flag = $line.split(' ')
-    $confFile = "${OutputDir}\$($flag[0]).conf"
-    Write-Host $confFile
+foreach($line in Get-Content $TempFile) {
+    [array]$Value = $line.split(' ')
+    $ConfigFile = "${OutputDir}\$($Value[0]).conf"
+    Write-Host $ConfigFile
     Copy-Item "${ConfigDir}\default.conf" -Destination $confFile
     $i = 0
     while ($i -lt $count) {
         $replace = "^$($headerA[$i]).*"
-        $replacement = "$($headerA[$i])=$($flag[$i])"
-        ((Get-Content $confFile) -replace "$replace","$replacement") | Set-Content $confFile
+        $replacement = "$($headerA[$i])=$($Value[$i])"
+        ((Get-Content $ConfigFile) -replace "$replace","$replacement") | Set-Content $ConfigFile
         $i++
     }   
 }
