@@ -7,6 +7,7 @@
         Custom configuration files are output as <ssid>.conf and can be automatically loaded 
         on the RD via CURL POST.
 #>
+#Requires -Version 4.0
 
 param (
     [Parameter(Position=0)]
