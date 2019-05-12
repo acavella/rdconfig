@@ -22,16 +22,20 @@ param (
     [switch]$Verb = $false
 )
 
-[string]$scriptPath = $MyInvocation.MyCommand.Path
-[string]$__rootDir = Split-Path $scriptPath
-[string]$__confDir = $__rootDir +"\conf"
-[string]$__outDir = $__rootDir +"\output"
+[string]$Script = $MyInvocation.MyCommand.Path
+[string]$ScriptDir = Split-Path ${Script}
+[string]$ConfigDir = "${ScriptDir}\conf"
+[string]$OutputDir = "${ScriptDir}\output"
+[string]$ScriptVersion = Get-Content ${ScriptDir}\VERSION
 [string]$sourceFile = $Path
-[string]$scriptVer = Get-Content ${__rootDir}\VERSION
-$tempFile = New-TemporaryFile
+[string]$tempFile = New-TemporaryFile
+
+Write-Host $scriptPath
+
+exit 0
 
 if ($version) {
-    Write-Host "rdConfig/${scriptVer}"
+    Write-Host "rdConfig/${ScriptVersion}"
     exit 0
 }
 
@@ -45,9 +49,9 @@ Write-Host "$tempFile"
 
 foreach($line in Get-Content $tempFile) {
     [array]$flag = $line.split(' ')
-    $confFile = "${__outDir}\$($flag[0]).conf"
+    $confFile = "${OutputDir}\$($flag[0]).conf"
     Write-Host $confFile
-    Copy-Item "${__confDir}\default.conf" -Destination $confFile
+    Copy-Item "${ConfigDir}\default.conf" -Destination $confFile
     $i = 0
     while ($i -lt $count) {
         $replace = "^$($headerA[$i]).*"
