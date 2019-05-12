@@ -15,7 +15,11 @@ param (
 
     [Parameter(Position=0)]
     [Alias("FilePath")]
-    [string[]]$Path
+    [string[]]$Path,
+
+    [Parameter(Position=0)]
+    [Alias("V")]
+    [switch]$Verb = $false
 )
 
 [string]$scriptPath = $MyInvocation.MyCommand.Path
